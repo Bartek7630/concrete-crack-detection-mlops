@@ -62,9 +62,9 @@ This project automates the first pass of visual inspection: given a photo of a c
 All AWS infrastructure (S3, ECR, IAM, Lambda, API Gateway) is fully automated and provisioned via Terraform.
 
 Tech Stack
-
-Category                                        Tools / Technologies
 ```text
+Category                                        Tools / Technologies
+
 Model & Framework                    PyTorch, torchvision (MobileNetV3-Small, transfer learning)
 Tracking & Registry                                    MLflow
 Workflow Orchestration                              Prefect 3.x
@@ -160,7 +160,8 @@ Example Response:
   "confidence": 0.9998
 }
 
-Telemetry & Drift Monitoring
+
+### Telemetry & Drift Monitoring
 1. Prediction Logging: Every inference request executed by AWS Lambda asynchronously logs metadata and image statistics (dimensions, aspect ratio, mean brightness, per-channel RGB standard deviations, predicted class, and confidence) as JSON files into an Amazon S3 telemetry bucket.
 
 2. Drift Detection: calculate_drift.py loads these production statistics alongside the baseline reference set and evaluates statistical drift using Evidently AI (DataDriftPreset).
