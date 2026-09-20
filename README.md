@@ -9,8 +9,6 @@
 
 Binary image classifier that detects cracks in concrete surfaces, wrapped in a production-ready MLOps lifecycle: experiment tracking, orchestrated training, containerized cloud deployment, and automated drift monitoring with conditional retraining triggers.
 
-*Built as the capstone project for the MLOps Zoomcamp.*
-
 ---
 
 ## Problem Overview
