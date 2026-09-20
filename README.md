@@ -57,24 +57,27 @@ This project automates the first pass of visual inspection: given a photo of a c
                                        │ → re-trigger training_flow()       │
                                        └────────────────────────────────────┘
 
+```
 
 All AWS infrastructure (S3, ECR, IAM, Lambda, API Gateway) is fully automated and provisioned via Terraform.
 
 Tech Stack
-Category        Tools / Technologies
-Model & Framework  "PyTorch, torchvision (MobileNetV3-Small, transfer learning)"
-Tracking & Registry  MLflow
-Workflow Orchestration    Prefect 3.x
-Containerization     Docker
-Cloud Infrastructure AWS Lambda (container image), Amazon ECR, Amazon S3, API Gateway
-Infrastructure as Code    Terraform
-Monitoring & Drift       Evidently AI (DataDriftPreset on image stats)
-Testing,pytest    moto (mocked AWS integration tests)
-Code Quality      Ruff (linter & formatter), pre-commit hooks
-CI/CD Pipeline       GitHub Actions (automated testing, Docker build & push to ECR)
+```text
+Category                                        Tools / Technologies
+Model & Framework                    PyTorch, torchvision (MobileNetV3-Small, transfer learning)
+Tracking & Registry                                    MLflow
+Workflow Orchestration                              Prefect 3.x
+Containerization                                       Docker
+Cloud Infrastructure               AWS Lambda (container image), Amazon ECR, Amazon S3, API Gateway
+Infrastructure as Code                                Terraform
+Monitoring & Drift                   Evidently AI (DataDriftPreset on image stats)
+Testing,pytest                          moto (mocked AWS integration tests)
+Code Quality                          Ruff (linter & formatter), pre-commit hooks
+CI/CD Pipeline                      GitHub Actions (automated testing, Docker build & push to ECR)
 
-
+```
 Repository Structure
+```text
 .
 ├── prepare_data.py           # Download, deduplicate, balance, and split dataset
 ├── train.py                  # MobileNetV3 training loop + MLflow logging/registry
@@ -92,40 +95,47 @@ Repository Structure
 ├── Makefile                  # Automation shortcuts (lint, test, build, push)
 └── .pre-commit-config.yaml   # Local Git hooks
 
-Local Development & Setup
+```
+### Local Development & Setup
 1. Environment Setup
+```text
 python -m venv .venv
 .venv\Scripts\activate        # Windows (or: source .venv/bin/activate on Linux/macOS)
 pip install -r lambda_model/requirements.txt
 pip install -r requirements-dev.txt
 pre-commit install
-
+```
 2. Model Training
+```text
 # Start local tracking services (in separate terminals if running locally)
 prefect server start
 mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./artifacts
 
 # Run training pipeline
 python training_flow.py
-
+```
 Pipeline downloads data via kagglehub, deduplicates near-identical patches, balances classes, trains MobileNetV3-Small with early stopping on validation F1 score, and registers the checkpoint under the champion alias in MLflow.
 
 3. Testing & Code Quality
+```text
 make lint              # Ruff checking & formatting
 make test              # Run all tests
 make test-unit         # Fast unit tests (no cloud dependencies)
 make test-integration  # AWS integration test with mocked S3 via moto
 
-Cloud Deployment & Inference
+```
+### Cloud Deployment & Inference
 1. Deploy Infrastructure (Terraform)
+```text
 cd terraform
 terraform init
 terraform plan
 terraform apply
-
+```
 Terraform outputs the API Gateway invoke URL (e.g. https://<api_id>.execute-api.<region>.amazonaws.com/).
 
 2. Running Inference (HTTP POST)
+```text
 Via PowerShell:
 $imgBytes = [System.IO.File]::ReadAllBytes("test_image.jpg"); `
 $imgBase64 = [System.Convert]::ToBase64String($imgBytes); `
@@ -146,7 +156,7 @@ Example Response:
   "prediction": "Positive",
   "confidence": 0.9998
 }
-
+```
 Telemetry & Drift Monitoring
 1. Prediction Logging: Every inference request executed by AWS Lambda asynchronously logs metadata and image statistics (dimensions, aspect ratio, mean brightness, per-channel RGB standard deviations, predicted class, and confidence) as JSON files into an Amazon S3 telemetry bucket.
 
