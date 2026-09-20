@@ -1,0 +1,25 @@
+[tool.ruff]
+line-length = 100
+
+target-version = "py311"
+
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "workspace",
+    "mlruns",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B"]
+
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["prepare_data", "train", "calculate_drift", "monitoring_flow", "lambda_model/lambda_function"]
+
+[tool.pytest.ini_options]
+pythonpath = [".", "lambda_model"]
+testpaths = ["tests"]
