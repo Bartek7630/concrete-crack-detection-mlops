@@ -57,6 +57,7 @@ This project automates the first pass of visual inspection: given a photo of a c
                                        │ → re-trigger training_flow()       │
                                        └────────────────────────────────────┘
 
+```
 
 All AWS infrastructure (S3, ECR, IAM, Lambda, API Gateway) is fully automated and provisioned via Terraform.
 
