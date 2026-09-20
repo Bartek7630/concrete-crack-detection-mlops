@@ -1,6 +1,6 @@
 # Concrete Surface Crack Detection — End-to-End MLOps Pipeline
 
-[![CI/CD](https://github.com/bartekpurc/concrete-crack-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/bartekpurc/concrete-crack-detection/actions/workflows/ci.yml)
+[![CI/CD Pipeline](https://github.com/Bartek7630/concrete-crack-detection-mlops/actions/workflows/ci.yml/badge.svg)](https://github.com/Bartek7630/concrete-crack-detection-mlops/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch)
 ![AWS](https://img.shields.io/badge/AWS-Lambda%20%7C%20ECR%20%7C%20S3%20%7C%20APIGW-232F3E?logo=amazonwebservices)
