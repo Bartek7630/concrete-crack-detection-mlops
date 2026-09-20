@@ -62,8 +62,9 @@ This project automates the first pass of visual inspection: given a photo of a c
 All AWS infrastructure (S3, ECR, IAM, Lambda, API Gateway) is fully automated and provisioned via Terraform.
 
 Tech Stack
-```text
+
 Category                                        Tools / Technologies
+```text
 Model & Framework                    PyTorch, torchvision (MobileNetV3-Small, transfer learning)
 Tracking & Registry                                    MLflow
 Workflow Orchestration                              Prefect 3.x
@@ -135,8 +136,9 @@ terraform apply
 Terraform outputs the API Gateway invoke URL (e.g. https://<api_id>.execute-api.<region>.amazonaws.com/).
 
 2. Running Inference (HTTP POST)
-```text
+
 Via PowerShell:
+```text
 $imgBytes = [System.IO.File]::ReadAllBytes("test_image.jpg"); `
 $imgBase64 = [System.Convert]::ToBase64String($imgBytes); `
 $body = @{ image =$imgBase64 } | ConvertTo-Json; `
@@ -144,19 +146,20 @@ Invoke-RestMethod -Uri "https://<api_endpoint>/predict" `
   -Method Post `
   -ContentType "application/json" `
   -Body $body
-
+```
 Via cURL:
+```text
 IMG_B64=$(base64 -w 0 test_image.jpg) # on macOS: base64 -i test_image.jpg
 curl -X POST "https://<api_endpoint>/predict" \
   -H "Content-Type: application/json" \
   -d "{\"image\": \"$IMG_B64\"}"
-
+```
 Example Response:
 {
   "prediction": "Positive",
   "confidence": 0.9998
 }
-```
+
 Telemetry & Drift Monitoring
 1. Prediction Logging: Every inference request executed by AWS Lambda asynchronously logs metadata and image statistics (dimensions, aspect ratio, mean brightness, per-channel RGB standard deviations, predicted class, and confidence) as JSON files into an Amazon S3 telemetry bucket.
 
