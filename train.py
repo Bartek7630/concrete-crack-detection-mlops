@@ -80,9 +80,9 @@ def train():
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
     train_loader, val_loader, test_loader = return_data_loaders()
 
-    assert (
-        CLASS_MAPPING_PATH.exists()
-    ), f"{CLASS_MAPPING_PATH} doesn't exist - run prepare_data.py. "
+    assert CLASS_MAPPING_PATH.exists(), (
+        f"{CLASS_MAPPING_PATH} doesn't exist - run prepare_data.py. "
+    )
 
     best_val_f1 = -1.0
     best_state_dict = None
